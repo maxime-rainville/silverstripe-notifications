@@ -1,5 +1,17 @@
 <?php
 
+namespace WebTorque\Notifications\Tests;
+
+
+
+use WebTorque\Notifications\Models\NotificationType;
+use WebTorque\Notifications\ParsedNotification;
+use SilverStripe\Security\Member;
+use SilverStripe\Dev\SapphireTest;
+
+
+
+
 /**
  * Test registion for Immunoglobin
  */
@@ -11,8 +23,8 @@ class ParsedNotificationTest extends SapphireTest
     public function testGetters()
     {
         $expected = 'FirstName = TMS AND Foo = Bar';
-        $type = $this->objFromFixture('NotificationType', 'boom');
-        $member = $this->objFromFixture('Member', 'tms');
+        $type = $this->objFromFixture(NotificationType::class, 'boom');
+        $member = $this->objFromFixture(Member::class, 'tms');
 
         $notifcation = new ParsedNotification($type, ['Foo' => 'Bar'], $member);
 

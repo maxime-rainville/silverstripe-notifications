@@ -1,5 +1,19 @@
 <?php
 
+namespace WebTorque\Notifications\Tests;
+
+
+
+
+
+use WebTorque\Notifications\Models\NotificationType;
+use WebTorque\Notifications\NotificationPurgeTask;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Dev\SapphireTest;
+
+
+
+
 /**
  * Test registion for Immunoglobin
  */
@@ -10,7 +24,7 @@ class NotificationPurgeTaskTest extends SapphireTest
 
     public function testRun()
     {
-        Config::inst()->update('NotificationType', 'default_records', [
+        Config::inst()->update(NotificationType::class, 'default_records', [
             ['SystemName' => 'TestOne', 'Name' => 'Test One'],
             ['SystemName' => 'TestTwo', 'Name' => 'Test Two'],
         ]);

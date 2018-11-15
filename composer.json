@@ -1,7 +1,7 @@
 {
     "name": "webtorque/silverstripe-notifications",
     "description": "Simple service provider for sending notification to members over different media.",
-    "type": "silverstripe-module",
+    "type": "silverstripe-vendormodule",
     "license": "MIT",
     "authors": [
         {
@@ -11,19 +11,23 @@
     ],
     "require": {
         "php": ">= 5.5.0, <=7.2",
-        "silverstripe/framework": "^3.2.0",
-        "silverstripe/cms": "^3.2.0"
+        "silverstripe/framework": "^4.0.0",
+        "silverstripe/cms": "^4.0.0"
     },
     "require-dev": {
       "phpunit/PHPUnit": "~3.7",
-      "silverstripe/travis-support": "^0.1.0",
-      "stevie-mayhew/trait-loader": "^1.0",
       "giggsey/libphonenumber-for-php": "^8.0"
     },
     "extra": {
-      "installer-name": "notification"
+      "installer-name": "notifications"
     },
     "suggest": {
         "giggsey/libphonenumber-for-php": "Allows advanced validation of the mobile phonen umber when sending an SMS."
-    }
+    },
+    "autoload": {
+        "psr-4": {
+            "WebTorque\\Notifications\\": "src/",
+            "WebTorque\\Notifications\\Tests\\": "tests/"
+        }
+    },
 }

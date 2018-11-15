@@ -1,4 +1,20 @@
 <?php
+
+namespace WebTorque\Notifications\Tests\Mocks;
+
+
+
+
+
+
+use WebTorque\Notifications\Interfaces\ParsedNotificationInterface;
+use WebTorque\Notifications\Interfaces\NotificationProviderInterface;
+use WebTorque\Notifications\Interfaces\NotificationParserInterface;
+use WebTorque\Notifications\Interfaces\NotificationDeliveryInterface;
+use SilverStripe\Security\Member;
+
+
+
 /**
  * This file contains 3 mocked classes specifically designed to test sending notification to multiple members. The
  * provide simple hooks to test that they have been destined for a specific member.

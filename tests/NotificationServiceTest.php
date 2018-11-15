@@ -1,5 +1,41 @@
 <?php
 
+namespace WebTorque\Notifications\Tests;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+use WebTorque\Notifications\NotificationService;
+use WebTorque\Notifications\Interfaces\NotificationResponseInterface;
+use WebTorque\Notifications\Tests\Mocks\MockMemberedParser;
+use WebTorque\Notifications\Tests\Mocks\MockMemberedNotificationProvider;
+use WebTorque\Notifications\Exceptions\NotificationFailureException;
+use WebTorque\Notifications\Models\Notification;
+use WebTorque\Notifications\Tests\Mocks\MockParsedNotification;
+use WebTorque\Notifications\Interfaces\NotificationParserInterface;
+use WebTorque\Notifications\Interfaces\ParsedNotificationInterface;
+use WebTorque\Notifications\Interfaces\NotificationProviderInterface;
+use WebTorque\Notifications\Interfaces\NotificationDeliveryInterface;
+use SilverStripe\Security\Member;
+use SilverStripe\ORM\ValidationException;
+use SilverStripe\Security\PermissionFailureException;
+use SilverStripe\Dev\SapphireTest;
+
+
+
+
 /**
  * Test registion for Immunoglobin
  */
@@ -15,7 +51,7 @@ class NotificationServiceTest extends SapphireTest
     public function testSucessSend()
     {
         $service = new NotificationService(new MockParser(), [new MockNotificationProvider()]);
-        $result = $service->send('mock', ["foo"=>"bar"], $this->objFromFixture('Member', 'tms'));
+        $result = $service->send('mock', ["foo"=>"bar"], $this->objFromFixture(Member::class, 'tms'));
 
         $this->assertInstanceOf(NotificationResponseInterface::class, $result);
         $this->assertEmpty($result->getFailures());
@@ -48,13 +84,13 @@ class NotificationServiceTest extends SapphireTest
     {
         $this->setExpectedException(NotificationFailureException::class);
         $service = new NotificationService(new MockBadParser(), [new MockNotificationProvider()]);
-        $result = $service->send('mock', ["foo"=>"bar"], $this->objFromFixture('Member', 'tms'));
+        $result = $service->send('mock', ["foo"=>"bar"], $this->objFromFixture(Member::class, 'tms'));
     }
 
     public function testBadProvider()
     {
         $service = new NotificationService(new MockParser(), [new MockBadNotificationProvider()]);
-        $result = $service->send('mock', ["foo"=>"bar"], $this->objFromFixture('Member', 'tms'));
+        $result = $service->send('mock', ["foo"=>"bar"], $this->objFromFixture(Member::class, 'tms'));
 
         $this->assertInstanceOf(NotificationResponseInterface::class, $result);
         $this->assertNotEmpty($result->getFailures());
@@ -67,7 +103,7 @@ class NotificationServiceTest extends SapphireTest
             new MockBadNotificationProvider(),
             new MockNotificationProvider(),
         ]);
-        $result = $service->send('mock', ["foo"=>"bar"], $this->objFromFixture('Member', 'tms'));
+        $result = $service->send('mock', ["foo"=>"bar"], $this->objFromFixture(Member::class, 'tms'));
 
         $this->assertInstanceOf(NotificationResponseInterface::class, $result);
         $this->assertNotEmpty($result->getFailures());
@@ -88,7 +124,7 @@ class NotificationServiceTest extends SapphireTest
          * Get a reference to TMS and log them in.
          * @var Member
          */
-        $tms = $this->objFromFixture('Member', 'tms');
+        $tms = $this->objFromFixture(Member::class, 'tms');
         $tms->logIn();
 
         // Test for our TMS
@@ -111,7 +147,7 @@ class NotificationServiceTest extends SapphireTest
 
     public function testUnreadCountForUnknowUser()
     {
-        $this->objFromFixture('Member', 'tms')->logIn();
+        $this->objFromFixture(Member::class, 'tms')->logIn();
         $this->setExpectedException(ValidationException::class);
         $service = new NotificationService(new MockParser(), []);
         $count = $service->getUnreadNotificationCountForMember(9999);
@@ -121,8 +157,8 @@ class NotificationServiceTest extends SapphireTest
     {
         $this->setExpectedException(PermissionFailureException::class);
 
-        $this->objFromFixture('Member', 'tms')->logIn();
-        $other = $this->objFromFixture('Member', 'other');
+        $this->objFromFixture(Member::class, 'tms')->logIn();
+        $other = $this->objFromFixture(Member::class, 'other');
 
         $service = new NotificationService(new MockParser(), []);
         $count = $service->getUnreadNotificationCountForMember($other);
@@ -132,7 +168,7 @@ class NotificationServiceTest extends SapphireTest
     {
         Member::default_admin()->logIn();
         $service = new NotificationService(new MockParser(), []);
-        $tms = $this->objFromFixture('Member', 'tms');
+        $tms = $this->objFromFixture(Member::class, 'tms');
         $count = $service->getUnreadNotificationCountForMember($tms);
         $this->assertEquals(1, $count);
     }
@@ -145,7 +181,7 @@ class NotificationServiceTest extends SapphireTest
          * Get a reference to TMS and log them in.
          * @var Member
          */
-        $tms = $this->objFromFixture('Member', 'tms');
+        $tms = $this->objFromFixture(Member::class, 'tms');
         $tms->logIn();
 
         // Test for our TMS
@@ -172,7 +208,7 @@ class NotificationServiceTest extends SapphireTest
 
     public function testUnreadListForUnknowMember()
     {
-        $this->objFromFixture('Member', 'tms')->logIn();
+        $this->objFromFixture(Member::class, 'tms')->logIn();
         $this->setExpectedException(ValidationException::class);
         $service = new NotificationService(new MockParser(), []);
         $service->getUnreadNotificationsForMember(9999);
@@ -182,8 +218,8 @@ class NotificationServiceTest extends SapphireTest
     {
         $this->setExpectedException(PermissionFailureException::class);
 
-        $this->objFromFixture('Member', 'tms')->logIn();
-        $other = $this->objFromFixture('Member', 'other');
+        $this->objFromFixture(Member::class, 'tms')->logIn();
+        $other = $this->objFromFixture(Member::class, 'other');
 
         $service = new NotificationService(new MockParser(), []);
         $service->getUnreadNotificationsForMember($other);
@@ -191,8 +227,8 @@ class NotificationServiceTest extends SapphireTest
 
     public function testMarkNotificationAsRead()
     {
-        $this->objFromFixture('Member', 'tms')->logIn();
-        $id = $this->objFromFixture('Notification', 'unread')->ID;
+        $this->objFromFixture(Member::class, 'tms')->logIn();
+        $id = $this->objFromFixture(Notification::class, 'unread')->ID;
 
         $service = new NotificationService(new MockParser(), []);
         $service->markNotificationAsRead($id);
@@ -205,8 +241,8 @@ class NotificationServiceTest extends SapphireTest
     public function testMarkNotificationAsReadTwice()
     {
         $this->setExpectedException(ValidationException::class);
-        $this->objFromFixture('Member', 'tms')->logIn();
-        $id = $this->objFromFixture('Notification', 'read')->ID;
+        $this->objFromFixture(Member::class, 'tms')->logIn();
+        $id = $this->objFromFixture(Notification::class, 'read')->ID;
 
         $service = new NotificationService(new MockParser(), []);
         $service->markNotificationAsRead($id);
@@ -215,7 +251,7 @@ class NotificationServiceTest extends SapphireTest
     public function testMarkUnknowNotificationAsRead()
     {
         $this->setExpectedException(ValidationException::class);
-        $this->objFromFixture('Member', 'tms')->logIn();
+        $this->objFromFixture(Member::class, 'tms')->logIn();
         $id = 9999;
 
         $service = new NotificationService(new MockParser(), []);
@@ -225,8 +261,8 @@ class NotificationServiceTest extends SapphireTest
     public function testMarkNotificationAsReadForDifferentUser()
     {
         $this->setExpectedException(PermissionFailureException::class);
-        $this->objFromFixture('Member', 'tms')->logIn();
-        $id = $this->objFromFixture('Notification', 'forbidden')->ID;
+        $this->objFromFixture(Member::class, 'tms')->logIn();
+        $id = $this->objFromFixture(Notification::class, 'forbidden')->ID;
 
         $service = new NotificationService(new MockParser(), []);
         $service->markNotificationAsRead($id);
@@ -236,7 +272,7 @@ class NotificationServiceTest extends SapphireTest
     {
         $this->setExpectedException(PermissionFailureException::class);
         Member::default_admin()->logIn();
-        $id = $this->objFromFixture('Notification', 'forbidden')->ID;
+        $id = $this->objFromFixture(Notification::class, 'forbidden')->ID;
 
         $service = new NotificationService(new MockParser(), []);
         $service->markNotificationAsRead($id);
@@ -244,8 +280,8 @@ class NotificationServiceTest extends SapphireTest
 
     public function markAllNotificationAsReadForMember()
     {
-        $this->objFromFixture('Member', 'tms')->logIn();
-        $other = $this->objFromFixture('Member', 'other');
+        $this->objFromFixture(Member::class, 'tms')->logIn();
+        $other = $this->objFromFixture(Member::class, 'other');
         $service = new NotificationService(new MockParser(), []);
         $service->markAllNotificationAsReadForMember();
 
@@ -260,7 +296,7 @@ class NotificationServiceTest extends SapphireTest
     {
         $this->setExpectedException(PermissionFailureException::class);
 
-        $tms = $this->objFromFixture('Member', 'tms');
+        $tms = $this->objFromFixture(Member::class, 'tms');
         Member::default_admin()->logIn();
         $service = new NotificationService(new MockParser(), []);
         $service->markAllNotificationAsReadForMember($tms);
@@ -270,7 +306,7 @@ class NotificationServiceTest extends SapphireTest
     {
         $this->setExpectedException(ValidationException::class);
 
-        $this->objFromFixture('Member', 'tms')->logIn();
+        $this->objFromFixture(Member::class, 'tms')->logIn();
 
         $service = new NotificationService(new MockParser(), []);
         $service->markAllNotificationAsReadForMember(9999);

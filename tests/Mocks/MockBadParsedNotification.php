@@ -1,5 +1,10 @@
 <?php
 
+namespace WebTorque\Notifications\Tests\Mocks;
+
+use Exception;
+
+
 class MockBadParsedNotification extends MockParsedNotification
 {
     public function getSubject()

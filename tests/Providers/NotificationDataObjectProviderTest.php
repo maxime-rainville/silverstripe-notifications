@@ -1,5 +1,24 @@
 <?php
 
+namespace WebTorque\Notifications\Tests\Providers;
+
+
+
+
+
+
+
+use WebTorque\Notifications\Providers\NotificationDataObjectProvider;
+use WebTorque\Notifications\Tests\Mocks\MockParsedNotification;
+use WebTorque\Notifications\Tests\Mocks\MockParsedNotificationWithoutSystemSubject;
+use WebTorque\Notifications\Exceptions\NotificationFailureException;
+use WebTorque\Notifications\Tests\Mocks\MockBadParsedNotification;
+use SilverStripe\Security\Member;
+use SilverStripe\Dev\SapphireTest;
+
+
+
+
 class NotificationDataObjectProviderTest extends SapphireTest
 {
     protected $usesDatabase = true;
@@ -8,7 +27,7 @@ class NotificationDataObjectProviderTest extends SapphireTest
     public function testSend()
     {
         $provider = new NotificationDataObjectProvider();
-        $member = $this->objFromFixture('Member', 'tms');
+        $member = $this->objFromFixture(Member::class, 'tms');
         $parsedNotification = new MockParsedNotification();
         $delivery = $provider->send($parsedNotification, $member);
 
@@ -25,7 +44,7 @@ class NotificationDataObjectProviderTest extends SapphireTest
     public function testSendWithoutSystemSubject()
     {
         $provider = new NotificationDataObjectProvider();
-        $member = $this->objFromFixture('Member', 'tms');
+        $member = $this->objFromFixture(Member::class, 'tms');
         $parsedNotification = new MockParsedNotificationWithoutSystemSubject();
         $delivery = $provider->send($parsedNotification, $member);
 
@@ -47,13 +66,13 @@ class NotificationDataObjectProviderTest extends SapphireTest
         $this->setExpectedException(NotificationFailureException::class);
 
         $provider = new NotificationDataObjectProvider();
-        $provider->send(new MockBadParsedNotification(), $this->objFromFixture('Member', 'tms'));
+        $provider->send(new MockBadParsedNotification(), $this->objFromFixture(Member::class, 'tms'));
     }
 
     public function testSendWithCallToAction()
     {
         $provider = new NotificationDataObjectProvider();
-        $member = $this->objFromFixture('Member', 'tms');
+        $member = $this->objFromFixture(Member::class, 'tms');
         $parsedNotification = new MockParsedNotification();
         $delivery = $provider->send($parsedNotification, $member, 'http://example.com');
 

@@ -1,5 +1,18 @@
 <?php
 
+namespace WebTorque\Notifications\Tests\Models;
+
+
+
+use SS_DateTime;
+
+use WebTorque\Notifications\Models\Notification;
+use SilverStripe\Security\Member;
+use SilverStripe\Dev\SapphireTest;
+
+
+
+
 /**
  * Test Notification DO
  */
@@ -10,11 +23,11 @@ class NotificationTest extends SapphireTest
 
     public function testCanView()
     {
-        $tms = $this->objFromFixture('Member', 'tms');
+        $tms = $this->objFromFixture(Member::class, 'tms');
 
 
-        $unread = $this->objFromFixture('Notification', 'unread');
-        $forbidden = $this->objFromFixture('Notification', 'forbidden');
+        $unread = $this->objFromFixture(Notification::class, 'unread');
+        $forbidden = $this->objFromFixture(Notification::class, 'forbidden');
 
         $this->assertTrue($unread->canView($tms), 'Member should be able to view his notification');
         $this->assertFalse($forbidden->canView($tms), 'Member should not be able to view other users\' notifications');
@@ -30,11 +43,11 @@ class NotificationTest extends SapphireTest
 
     public function testCanEdit()
     {
-        $tms = $this->objFromFixture('Member', 'tms');
+        $tms = $this->objFromFixture(Member::class, 'tms');
 
 
-        $unread = $this->objFromFixture('Notification', 'unread');
-        $forbidden = $this->objFromFixture('Notification', 'forbidden');
+        $unread = $this->objFromFixture(Notification::class, 'unread');
+        $forbidden = $this->objFromFixture(Notification::class, 'forbidden');
 
         $this->assertTrue($unread->canEdit($tms), 'Member should be able to edit his notification');
         $this->assertFalse($forbidden->canEdit($tms), 'Member should not be able to edit other users\' notifications');
@@ -50,10 +63,10 @@ class NotificationTest extends SapphireTest
 
     public function testCanDelete()
     {
-        $tms = $this->objFromFixture('Member', 'tms');
+        $tms = $this->objFromFixture(Member::class, 'tms');
 
-        $unread = $this->objFromFixture('Notification', 'unread');
-        $forbidden = $this->objFromFixture('Notification', 'forbidden');
+        $unread = $this->objFromFixture(Notification::class, 'unread');
+        $forbidden = $this->objFromFixture(Notification::class, 'forbidden');
 
         $this->assertTrue($unread->canDelete($tms), 'Member should be able to delete his notification');
         $this->assertFalse($forbidden->canDelete($tms), 'Member should not be able to delete other users\' notifications');
@@ -69,10 +82,10 @@ class NotificationTest extends SapphireTest
 
     public function testCanCreate()
     {
-        $tms = $this->objFromFixture('Member', 'tms');
+        $tms = $this->objFromFixture(Member::class, 'tms');
 
-        $unread = $this->objFromFixture('Notification', 'unread');
-        $forbidden = $this->objFromFixture('Notification', 'forbidden');
+        $unread = $this->objFromFixture(Notification::class, 'unread');
+        $forbidden = $this->objFromFixture(Notification::class, 'forbidden');
 
         $this->assertFalse($unread->canCreate($tms), 'Member should not be able to create new notification directly.');
 
@@ -85,10 +98,10 @@ class NotificationTest extends SapphireTest
 
     public function testCanMarkAsRead()
     {
-        $tms = $this->objFromFixture('Member', 'tms');
+        $tms = $this->objFromFixture(Member::class, 'tms');
 
-        $unread = $this->objFromFixture('Notification', 'unread');
-        $forbidden = $this->objFromFixture('Notification', 'forbidden');
+        $unread = $this->objFromFixture(Notification::class, 'unread');
+        $forbidden = $this->objFromFixture(Notification::class, 'forbidden');
 
         $this->assertTrue($unread->canMarkAsRead($tms), 'Member should be able to mark-has-viewed his notification');
         $this->assertFalse($forbidden->canMarkAsRead($tms), 'Member should not be able to mark-has-viewed other users\' notifications');
@@ -103,8 +116,8 @@ class NotificationTest extends SapphireTest
 
     public function testGetViewed()
     {
-        $unread = $this->objFromFixture('Notification', 'unread');
-        $read = $this->objFromFixture('Notification', 'read');
+        $unread = $this->objFromFixture(Notification::class, 'unread');
+        $read = $this->objFromFixture(Notification::class, 'read');
 
         $this->assertTrue($read->Viewed, 'Notification with a ViewedOn Date should be Viewed.');
         $this->assertFalse($unread->Viewed, 'Notification without a ViewedOn Date should not be Viewed.');
@@ -118,8 +131,8 @@ class NotificationTest extends SapphireTest
 
     public function testSetViewed()
     {
-        $unread = $this->objFromFixture('Notification', 'unread');
-        $read = $this->objFromFixture('Notification', 'read');
+        $unread = $this->objFromFixture(Notification::class, 'unread');
+        $read = $this->objFromFixture(Notification::class, 'read');
 
         $unread->Viewed = true;
         $read->Viewed = false;

@@ -1,5 +1,12 @@
 <?php
 
+namespace WebTorque\Notifications\Tests\Mocks;
+
+
+use WebTorque\Notifications\Interfaces\ParsedNotificationInterface;
+
+
+
 class MockParsedNotification implements ParsedNotificationInterface
 {
     public function getSubject()
