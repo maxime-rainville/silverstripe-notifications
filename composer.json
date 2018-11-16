@@ -29,5 +29,5 @@
             "WebTorque\\Notifications\\": "src/",
             "WebTorque\\Notifications\\Tests\\": "tests/"
         }
-    },
+    }
 }
