@@ -1,0 +1,15 @@
+en:
+  WebTorque\Notifications\Admin\NotificationAdmin:
+    MENUTITLE: Notifications
+  WebTorque\Notifications\Models\Notification:
+    PLURALNAME: Notifications
+    PLURALS:
+      one: 'A Notification'
+      other: '{count} Notifications'
+    SINGULARNAME: Notification
+  WebTorque\Notifications\Models\NotificationType:
+    PLURALNAME: 'Notification Types'
+    PLURALS:
+      one: 'A Notification Type'
+      other: '{count} Notification Types'
+    SINGULARNAME: 'Notification Type'
