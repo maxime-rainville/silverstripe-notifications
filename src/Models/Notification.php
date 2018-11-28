@@ -26,6 +26,8 @@ use SilverStripe\ORM\DataObject;
  */
 class Notification extends DataObject
 {
+    private static $table_name = 'Notification';
+
     private static $db = [
         'Subject' => 'Text',
         'ShortMessage' => 'Text',

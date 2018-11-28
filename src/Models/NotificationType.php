@@ -45,12 +45,17 @@ class NotificationType extends DataObject
         'RichMessageFormat'     => 'HTMLText',
     ];
 
+    private static $table_name = 'NotificationType';
+
     private static $summary_fields = [
         'Name',
     ];
 
     private static $indexes = [
-        'SystemName_unique' => 'unique("SystemName")'
+        'SystemNameUnique' => [
+            'type' => 'unique',
+            'columns' => ['SystemName']
+        ]
     ];
 
     private static $field_labels = [
@@ -98,7 +103,7 @@ class NotificationType extends DataObject
      * @param  mixed $member User for which the permission is checked.
      * @return boolean
      */
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         // Don't let anyone create a new Notification Types.
         return false;
