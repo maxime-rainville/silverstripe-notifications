@@ -1,9 +1,9 @@
-play
-<
+<?php
+
+use SilverStripe\Dev\SapphireTest;
 use WebTorque\Notifications\Providers\NotificationSmsMessageMediaProvider;
 use WebTorque\Notifications\Tests\Mocks\MockParsedNotification;
 use WebTorque\Notifications\Exceptions\NotificationFailureException;
-?php
 
 class NotificationSmsMessageMediaProviderTest extends SapphireTest
 {

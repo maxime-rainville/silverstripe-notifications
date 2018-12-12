@@ -1,11 +1,11 @@
-NotificationType:
+WebTorque\Notifications\Models\NotificationType:
   boom:
     SystemName: boom
     Name: "Boom!"
     ShortMessageFormat: "Boom $FirstName!"
     SubjectFormat: "Boom $FirstName!"
     RichMessageFormat: "Dear <em>$FirstName</em>, the system just went <strong>boom</strong>!"
-Member:
+SilverStripe\Security\Member:
   tms:
     FirstName: 'TMS'
     Surname: 'Test'

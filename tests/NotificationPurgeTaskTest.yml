@@ -1,4 +1,4 @@
-NotificationType:
+WebTorque\Notifications\Models\NotificationType:
   boom:
     SystemName: boom
     Name: "Boom!"

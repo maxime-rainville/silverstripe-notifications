@@ -1,9 +1,9 @@
-Member:
+SilverStripe\Security\Member:
   tms:
     FirstName: 'TMS'
     Surname: 'Test'
     Email: 'tms@nzblood.co.nz'
-NotificationType:
+WebTorque\Notifications\Models\NotificationType:
   boom:
     SystemName: boom
     Name: "Boom!"

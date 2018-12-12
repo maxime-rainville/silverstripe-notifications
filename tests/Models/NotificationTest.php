@@ -10,9 +10,6 @@ use WebTorque\Notifications\Models\Notification;
 use SilverStripe\Security\Member;
 use SilverStripe\Dev\SapphireTest;
 
-
-
-
 /**
  * Test Notification DO
  */

@@ -1,4 +1,4 @@
-NotificationType:
+WebTorque\Notifications\Models\NotificationType:
   boom:
     SystemName: boom
     Name: "Boom!"
@@ -6,7 +6,7 @@ NotificationType:
     SubjectFormat: "Subject: FirstName = $Member.FirstName AND Foo = $Foo"
     RichMessageFormat: "<strong>Rich</strong>: FirstName = $Member.FirstName AND Foo = $Foo"
     SystemSubjectFormat: "System Subject: FirstName = $Member.FirstName AND Foo = $Foo"
-Member:
+SilverStripe\Security\Member:
   tms:
     FirstName: 'TMS'
     Surname: 'Test'

@@ -1,4 +1,4 @@
-Member:
+SilverStripe\Security\Member:
   tms:
     FirstName: 'TMS'
     Surname: 'Test'
@@ -7,22 +7,22 @@ Member:
     FirstName: 'Other'
     Surname: 'Member'
     Email: 'other.member@nzblood.co.nz'
-Notification:
+WebTorque\Notifications\Models\Notification;:
   unread:
     ShortMessage: "Notification Short message"
     Subject: "Notification Subject"
     RichMessage: "Notification <em>Rich</em> Message"
     ViewedOn: null
-    Member: =>Member.tms
+    Member: =>SilverStripe\Security\Member.tms
   read:
     ShortMessage: "Notification Short message"
     Subject: "Notification Subject"
     RichMessage: "Notification <em>Rich</em> Message"
     ViewedOn: 2017-01-01 00:00:00
-    Member: =>Member.tms
+    Member: =>SilverStripe\Security\Member.tms
   forbidden:
     ShortMessage: "Notification Short message"
     Subject: "Notification Subject"
     RichMessage: "Notification <em>Rich</em> Message"
     ViewedOn: null
-    Member: =>Member.other
+    Member: =>SilverStripe\Security\Member.other
